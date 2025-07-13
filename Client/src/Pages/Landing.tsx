@@ -10,9 +10,9 @@ function Landing() {
       <Navbar/>
       <Welcome/>
       <Insight/>
-      <div className='grid grid-cols-3 gap-4 bg-gray-900'>
+      <div className='grid grid-cols-3 gap-4 bg-gray-900 space-x-1'>
         <Featured/>
-        <div className='mt-11 lg:col-span-1 col-span-3'>
+        <div className='mt-11 lg:col-span-1 col-span-3 space-y-6'>
           <SavedBooks/>
           <LatestReviews/>
         </div>

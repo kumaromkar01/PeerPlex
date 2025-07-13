@@ -32,7 +32,7 @@ const reviews = [
 
 const LatestReviews = () => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 mt-5 w-full max-w-sm">
+    <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-sm">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-800">Latest Reviews</h2>
         <a href="#" className="text-sm text-blue-600 hover:underline">

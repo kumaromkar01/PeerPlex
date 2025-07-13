@@ -3,6 +3,7 @@ import {
   HeartIcon,
   ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 
 const resources = [
   {
@@ -61,16 +62,17 @@ const resources = [
   },
 ];
 
-const Featured = () => {
+const Uploads = () => {
+  const navigate = useNavigate();
   return (
 
     
     <div className="bg-gray-900 min-h-screen p-8 lg:col-span-2 col-span-3">
       <div className='flex justify-between m-3 text-pink-500'>
-        <button className='text-md'>Featured Resources</button>
-        <button className='text-md'>View All  &#8594;</button>
+        <button className='text-md'>All Uploads</button>
+        <button onClick={()=>(navigate(-1))}className='text-md'>Back  &#8594;</button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2   gap-6">
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3  gap-6">
         {resources.map((resource) => (
           <div
             key={resource.id}
@@ -114,4 +116,4 @@ const Featured = () => {
   );
 };
 
-export default Featured;
+export default Uploads;
