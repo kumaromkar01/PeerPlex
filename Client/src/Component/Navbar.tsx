@@ -12,12 +12,13 @@ function Navbar() {
 
       <div className="flex gap-3">
         <button
+          onClick={()=>navigate('/allBooks')}
           className=" hover:bg-blue-700  text-white py-1 px-2 rounded-md text-sm "
         >
           Explore
         </button>
         <button
-          onClick={()=>navigate('/add-resource')}
+          onClick={()=>navigate('/add-book')}
           className=" hover:bg-blue-700  text-white px-2 py-1 rounded-md text-sm "
         >
           Add Resource
