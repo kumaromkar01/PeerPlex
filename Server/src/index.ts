@@ -3,27 +3,28 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import { connectToDB } from './config/connectToDB';
-
+import authRouter from './routes/auth';
 
 dotenv.config();
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 
-app.get('/',(req,res)=>{
-    res.send('server running');
+app.use('/api/user',authRouter);
+
+app.use('/',(req,res)=>{
+    res.status(200).json({message : "sever running"});
 })
 const startServer = async()=>{
     try {
         await connectToDB();
-        app.listen(5000,()=>{
-            console.log('server running on 5000');
+        const PORT = process.env.PORT?process.env.PORT:5000;
+        app.listen(PORT,()=>{
+            console.log('server is running');
         })
     } catch (error) {
-        console.log('error starting in server');
+        console.log('server starting error ');
     }
-    
 }
 startServer();
