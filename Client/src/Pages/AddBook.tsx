@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function AddBook() {
   const [title, setTitle] = useState('');
@@ -7,6 +9,8 @@ function AddBook() {
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
   const [image, setImage] = useState<File | null>(null);
+  const [loading, setloading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +25,7 @@ function AddBook() {
 
     try {
       const token = localStorage.getItem('token'); // or however you're storing JWT
-
+      setloading(true);
       const res = await axios.post('http://localhost:5000/api/book/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -33,17 +37,23 @@ function AddBook() {
       alert('Book uploaded successfully');
     } catch (error) {
       console.error(error);
-      alert('Upload failed');
+      toast.error(error as string);
+    }
+    finally {
+      setloading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center p-6 bg-gray-100">
+    <div className="min-h-screen flex justify-center items-center p-6 bg-black text-[aliceblue]">
       <form
         onSubmit={handleSubmit}
-        className="bg-white w-full max-w-md rounded-xl shadow-md p-8 space-y-5"
+        className="bg-gray-800 w-full max-w-md rounded-xl shadow-md p-8 space-y-5"
       >
-        <h2 className="text-3xl font-semibold text-gray-800 text-center">Upload Book</h2>
+        <div className='flex justify-between'>
+          <h2 className="text-3xl font-semibold  text-center">Upload Book</h2>
+          <h2 onClick={()=>(navigate(-1))}className='text-blue-600 cursor-pointer'>&#10060;</h2>
+        </div>
 
         <input
           type="text"
@@ -78,7 +88,7 @@ function AddBook() {
         />
 
         <div className="w-full">
-          <label className="block mb-1 text-gray-700">Select Image</label>
+          <label className="block mb-1">Select Image</label>
           <input
             type="file"
             accept="image/*"
@@ -88,10 +98,14 @@ function AddBook() {
         </div>
 
         <button
+          disabled={loading}
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white p-2 rounded-md flex justify-center items-center"
         >
-          Submit
+          {
+            loading ? <div className='w-5 h-5 border-2 border-white rounded-full animate-bounce'></div> : "Submit"
+          }
+
         </button>
       </form>
     </div>

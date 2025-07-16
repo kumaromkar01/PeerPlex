@@ -11,3 +11,5 @@ export const login=( email:string, password:string ) =>api.post('/api/user/login
 export const signup=(name : string,email:string,password:string)=>api.post('/api/user/signup',{name,email,password});
 export const verify=(token : string)=>api.get('/api/user/verify',{headers:{authorization : token}});
 export const getProfile = (token : string)=>api.get('/api/content/profile',{headers:{authorization:token}})
+export const getBooks = (page:Number,limit : Number)=> api.get(`/api/book/all?page=${page}&limit=${limit}`);
+export const getUploads = (token : string)=> api.get('/api/book/myuploads',{headers : {authorization:token}});
