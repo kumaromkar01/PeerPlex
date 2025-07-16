@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import './App.css'
 import Landing from './Pages/Landing'
-import Uploads from './Pages/Uploads.tsx'
 import Login from './Pages/Login.tsx'
 import SignUp from './Pages/SignUp.tsx'
 import AddBook from './Pages/AddBook.tsx'
@@ -15,10 +14,26 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path={'/'} element={<ProtectedRoute><Landing/></ProtectedRoute>}></Route>
-          <Route path={'/add-book'} element={<AddBook />}></Route>
-          <Route path={'allBooks/'} element={<AllBooks />}></Route>
-          <Route path={'/uploads'} element={<Uploads />}></Route>
+          <Route path={'/'} element={
+            <ProtectedRoute>
+              <Landing />
+            </ProtectedRoute>}>
+          </Route>
+          <Route path={'/add-book'} element={
+            <ProtectedRoute>
+              <AddBook />
+            </ProtectedRoute>}>
+          </Route>
+          <Route path={'allBooks/'} element={
+            <ProtectedRoute>
+              <AllBooks types="all" />
+            </ProtectedRoute>}>
+          </Route>
+          <Route path={'/uploads'} element={
+            <ProtectedRoute>
+              <AllBooks types="uploads" />
+            </ProtectedRoute>}>
+          </Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path={'/signup'} element={<SignUp />}></Route>
         </Routes>

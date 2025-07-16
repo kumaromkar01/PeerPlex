@@ -1,4 +1,4 @@
-import mongoose, { trusted } from "mongoose";
+import mongoose from "mongoose";
 
 const bookSchema = new mongoose.Schema({
     title : {
@@ -13,6 +13,10 @@ const bookSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    url : {
+        type : String,
+        required : true,
+    },
     user : {
         type : mongoose.SchemaTypes.ObjectId,
         ref : "User"
@@ -22,7 +26,8 @@ const bookSchema = new mongoose.Schema({
         ref : "Review"
     }],
     likes : {
-        type : Number
+        type : Number,
+        default : 0,
     }
 },{timestamps: true})
 

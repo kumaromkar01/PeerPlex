@@ -1,11 +1,13 @@
 
-
-export default function WelcomeBanner({ username = "John Doe" }) {
+interface props{
+  name : string
+}
+export default function WelcomeBanner({name}:props) {
   return (
     <div className="flex justify-between min-w-full rounded-xl p-8 bg-gradient-to-r from-indigo-900 via-purple-900 to-gray-900 text-white shadow-lg mx-auto">
       <div >
       <h1 className="text-2xl font-bold mb-2">
-        Welcome back, {username}!
+        Welcome back, {name}!
       </h1>
       <p className="text-gray-300 mb-6">
         Discover thousands of books and PDFs, tailored just for you. Dive into new topics or revisit your favorites!

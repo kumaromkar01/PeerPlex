@@ -1,17 +1,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import {v2 as cloudinary} from 'cloudinary';
 
 import { connectToDB } from './config/connectToDB';
 import authRouter from './routes/auth';
-
+import contentRouter from './routes/user';
+import BookRouter from './routes/book';
 dotenv.config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 
 app.use('/api/user',authRouter);
+app.use('/api/content',contentRouter);
+app.use('/api/book',BookRouter);
 
 app.use('/',(req,res)=>{
     res.status(200).json({message : "sever running"});
@@ -19,7 +24,7 @@ app.use('/',(req,res)=>{
 const startServer = async()=>{
     try {
         await connectToDB();
-        const PORT = process.env.PORT?process.env.PORT:5000;
+        const PORT = process.env.PORT??5000;
         app.listen(PORT,()=>{
             console.log('server is running');
         })

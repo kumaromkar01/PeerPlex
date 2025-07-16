@@ -56,7 +56,7 @@ function Login() {
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center flex justify-center"
         >
           {loading ? <div
-            className="w-5 h-5 border-2 border-white  rounded-3xl animate-bounce"
+            className="w-5 h-5 border-2 border-white rounded-3xl animate-bounce"
           ></div>
             : 'Login'
           }

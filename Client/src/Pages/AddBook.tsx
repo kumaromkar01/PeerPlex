@@ -1,96 +1,101 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function AddBook() {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [image, setImage] = useState<File | null>(null);
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [email, setEmail] = useState('');
+  const [url, setUrl] = useState('');
+  const [image, setImage] = useState<File | null>(null);
 
-    // Simulated logged-in user
-    const uploadedBy = 'omkar@domain.com';
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!image) return alert('Please select an image');
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('desc', desc);
+    formData.append('email', email);
+    formData.append('url', url);
+    formData.append('image', image);
 
-        // TODO: You can replace this with actual API call
-        console.log({
-            title,
-            description,
-            image,
-            uploadedBy,
-        });
-    };
+    try {
+      const token = localStorage.getItem('token'); // or however you're storing JWT
 
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
-            <form
-                onSubmit={handleSubmit}
-                className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg space-y-6"
-            >
-                <div  className='flex justify-between'>
-                    <h6 className="text-md font-bold text-pink-900">Add a New Book</h6>
-                    <Link to={'/'}className="text-md font-bold text-pink-900">&larr; Back</Link>
-                </div>
+      const res = await axios.post('http://localhost:5000/api/book/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: token || '',
+        },
+      });
 
-                {/* Title */}
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Book Title</label>
-                    <input
-                        type="text"
-                        placeholder="Enter book title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
-                </div>
+      console.log(res.data);
+      alert('Book uploaded successfully');
+    } catch (error) {
+      console.error(error);
+      alert('Upload failed');
+    }
+  };
 
-                {/* Description */}
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">One-line Description</label>
-                    <input
-                        type="text"
-                        placeholder="Write a short description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
-                </div>
+  return (
+    <div className="min-h-screen flex justify-center items-center p-6 bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white w-full max-w-md rounded-xl shadow-md p-8 space-y-5"
+      >
+        <h2 className="text-3xl font-semibold text-gray-800 text-center">Upload Book</h2>
 
-                {/* Uploaded By (read-only) */}
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Uploaded By</label>
-                    <input
-                        type="text"
-                        value={uploadedBy}
-                        disabled
-                        className="w-full px-4 py-2 border bg-gray-100 rounded-md text-gray-600 cursor-not-allowed"
-                    />
-                </div>
+        <input
+          type="text"
+          placeholder="Title"
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-                {/* Upload Image */}
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Book Cover Image</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setImage(e.target.files?.[0] || null)}
-                        className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
-                        required
-                    />
-                </div>
+        <input
+          type="text"
+          placeholder="Description"
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}
+        />
 
-                {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
-                >
-                    Upload Book
-                </button>
-            </form>
+        <input
+          type="email"
+          placeholder="Your Email"
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Book URL"
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+
+        <div className="w-full">
+          <label className="block mb-1 text-gray-700">Select Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files?.[0] || null)}
+            className="w-full"
+          />
         </div>
-    );
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default AddBook;

@@ -10,4 +10,4 @@ const api = axios.create({
 export const login=( email:string, password:string ) =>api.post('/api/user/login',{email,password});
 export const signup=(name : string,email:string,password:string)=>api.post('/api/user/signup',{name,email,password});
 export const verify=(token : string)=>api.get('/api/user/verify',{headers:{authorization : token}});
-
+export const getProfile = (token : string)=>api.get('/api/content/profile',{headers:{authorization:token}})

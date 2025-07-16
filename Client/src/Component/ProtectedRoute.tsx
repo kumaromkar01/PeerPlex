@@ -40,10 +40,9 @@ function ProtectedRoute({ children }: props) {
         verification();
 
     }, [])
-    if (loading) return <div>loading....</div>;
+    if (loading) return <div className="w-[500px] h-[500px] rounded-full animate-spin border-yellow-500"></div>;
 
     if (!valid) {
-        toast.error('invalid user token');
         return <Navigate to='/login' replace/>
     }
 
