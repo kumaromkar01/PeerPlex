@@ -13,3 +13,4 @@ export const verify=(token : string)=>api.get('/api/user/verify',{headers:{autho
 export const getProfile = (token : string)=>api.get('/api/content/profile',{headers:{authorization:token}})
 export const getBooks = (page:Number,limit : Number)=> api.get(`/api/book/all?page=${page}&limit=${limit}`);
 export const getUploads = (token : string)=> api.get('/api/book/myuploads',{headers : {authorization:token}});
+export const getInsight = ()=>api.get('/api/insight/values');

@@ -24,7 +24,7 @@ function AddBook() {
     formData.append('image', image);
 
     try {
-      const token = localStorage.getItem('token'); // or however you're storing JWT
+      const token = localStorage.getItem('token'); 
       setloading(true);
       const res = await axios.post('http://localhost:5000/api/book/create', formData, {
         headers: {
@@ -33,8 +33,7 @@ function AddBook() {
         },
       });
 
-      console.log(res.data);
-      alert('Book uploaded successfully');
+      toast.success(res.statusText)
     } catch (error) {
       console.error(error);
       toast.error(error as string);
@@ -58,7 +57,7 @@ function AddBook() {
         <input
           type="text"
           placeholder="Title"
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full text-black px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -66,7 +65,7 @@ function AddBook() {
         <input
           type="text"
           placeholder="Description"
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full text-black px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
         />
@@ -74,7 +73,7 @@ function AddBook() {
         <input
           type="email"
           placeholder="Your Email"
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full text-black px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -82,7 +81,7 @@ function AddBook() {
         <input
           type="text"
           placeholder="Book URL"
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full text-black px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
