@@ -7,6 +7,7 @@ import { connectToDB } from './config/connectToDB';
 import authRouter from './routes/auth';
 import contentRouter from './routes/user';
 import BookRouter from './routes/book';
+import InsightRouter from './routes/insight'
 dotenv.config();
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/user',authRouter);
 app.use('/api/content',contentRouter);
 app.use('/api/book',BookRouter);
+app.use('/api/insight',InsightRouter);
 
 app.use('/',(req,res)=>{
     res.status(200).json({message : "sever running"});
