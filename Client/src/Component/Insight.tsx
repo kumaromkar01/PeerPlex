@@ -1,6 +1,5 @@
 import {
   BookOpenIcon,
-  HandThumbUpIcon,
   ChatBubbleLeftEllipsisIcon,
   UsersIcon,
 } from '@heroicons/react/24/solid';
@@ -35,11 +34,6 @@ const InsightsAtGlance = () => {
       value: uploads,
     },
     {
-      icon: <HandThumbUpIcon className="h-6 w-6 text-pink-500" />,
-      label: 'Total Likes Received',
-      value: '3,567', // hardcoded — update if dynamic in the future
-    },
-    {
       icon: <ChatBubbleLeftEllipsisIcon className="h-6 w-6 text-pink-500" />,
       label: 'Total Reviews Posted',
       value: reviews,
@@ -52,8 +46,8 @@ const InsightsAtGlance = () => {
   ];
 
   return (
-    <div className="bg-gray-900 p-6 rounded-lg">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="bg-gray-900 p-6 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {stats.map((item, index) => (
           <div
             key={index}

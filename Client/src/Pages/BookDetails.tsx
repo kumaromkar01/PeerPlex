@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { CalendarDaysIcon } from "@heroicons/react/16/solid";
 
-const BookDetailsPage = () => {
+const BookDetails = () => {
     const { id } = useParams();
     const [book, setBook] = useState<any>(); // Replace `any` with a type if available
     const navigate = useNavigate();
@@ -178,4 +178,4 @@ const BookDetailsPage = () => {
     );
 };
 
-export default BookDetailsPage;
+export default BookDetails;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL : import.meta.env.VITE_API_URL??"http://localhost:5000/",
+    baseURL : import.meta.env.URL??"http://localhost:5000/",
     headers : {
         'Content-Type' : 'application/json'
     }
@@ -14,3 +14,4 @@ export const getProfile = (token : string)=>api.get('/api/content/profile',{head
 export const getBooks = (page:Number,limit : Number)=> api.get(`/api/book/all?page=${page}&limit=${limit}`);
 export const getUploads = (token : string)=> api.get('/api/book/myuploads',{headers : {authorization:token}});
 export const getInsight = ()=>api.get('/api/insight/values');
+export const getLatestReviews = ()=> api.get('/api/book/latestrev');

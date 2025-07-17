@@ -4,6 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import userModel from '../models/user.model';
 import bookModel from '../models/book.model';
 import cloudinary from '../config/cloudinary';
+import reviewModel from '../models/review.model';
 
 const router = Router();
 
@@ -100,5 +101,76 @@ router.get('/myuploads', async (req, res) => {
   }
 
 })
+router.get('/details/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const book = await bookModel.findById(id).populate('user').populate('reviews');
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+
+    res.status(200).json({ book });
+  } catch (error) {
+    console.error('Error in GET /:id:', error);
+    res.status(500).json({ message: 'Server error while fetching book' });
+  }
+});
+
+router.post('/addreview/:id', async (req, res) => {
+  try {
+    const token = req.headers.authorization as string;
+    if (!token) return res.status(401).json({ msg: "No token provided" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+    const user = await userModel.findById(decoded.userId);
+    if (!user) return res.status(400).json({ msg: 'Invalid user' });
+
+    const { id } = req.params;
+    const book = await bookModel.findById(id);
+    if (!book) return res.status(400).json({ msg: "Invalid book ID" });
+
+    const { comment } = req.body;
+    if (!comment) return res.status(400).json({ msg: "Comment is required" });
+
+    const newReview = new reviewModel({
+      username : user.name,
+      user: user._id,
+      book: book._id,
+      comment,
+    });
+
+    await newReview.save();
+
+    book.reviews.push(newReview._id);
+    await book.save();
+
+    user.reviews.push(newReview._id);
+    await user.save();
+
+    res.status(200).json(newReview);
+  } catch (error) {
+    console.error("Add review error:", error);
+    res.status(500).json({ msg: "Server error", error });
+  }
+});
+
+
+router.get('/latestrev', async (req, res) => {
+  try {
+    const review = await reviewModel
+      .find()
+      .sort({ createdAt: -1 })
+      .limit(5) 
+      .populate('user', 'name') // optional: include user name
+      .populate('book', 'title'); // optional: include book title
+
+    res.status(200).json(review);
+  } catch (error) {
+    console.error("Error fetching latest reviews:", error);
+    res.status(500).json({ msg: "Failed to fetch latest reviews" });
+  }
+});
+
 
 export default router;

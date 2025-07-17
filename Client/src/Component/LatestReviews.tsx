@@ -1,36 +1,22 @@
-
-const reviews = [
-  {
-    id: 1,
-    name: 'Alice Wonderland',
-    avatar: '/avatars/alice.jpg',
-    text: "Absolutely fantastic! 'The Algorithm’s Art' opened my eyes to a whole new dimension of creativity. Highly",
-    time: '2 hours ago',
-  },
-  {
-    id: 2,
-    name: 'Bob The Builder',
-    avatar: '/avatars/bob.jpg',
-    text: 'Quantum Computing for Beginners is surprisingly accessible. I finally feel like I understand the basics. Some',
-    time: '1 day ago',
-  },
-  {
-    id: 3,
-    name: 'Charlie Chaplin',
-    avatar: '/avatars/charlie.jpg',
-    text: 'The Sustainable Living Handbook is a game-changer! Practical tips and inspiring ideas. My family has already',
-    time: '3 days ago',
-  },
-  {
-    id: 4,
-    name: 'Diana Prince',
-    avatar: '/avatars/diana.jpg',
-    text: 'Mindfulness in the Digital Age provided much-needed strategies. It’s challenging to stay focused, but the',
-    time: '5 days ago',
-  },
-];
-
+import { useState,useEffect } from "react";
+import { getLatestReviews } from "../Services/api";
+import { useNavigate } from "react-router-dom";
 const LatestReviews = () => {
+  const [reviews, setReviews] = useState<any>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await getLatestReviews();
+        setReviews(res.data);
+      } catch (err) {
+        console.error("Failed to fetch latest reviews:", err);
+      }
+    };
+
+    fetchReviews();
+  }, []);
   return (
     <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-sm">
       <div className="flex items-center justify-between mb-4">
@@ -41,21 +27,24 @@ const LatestReviews = () => {
       </div>
 
       <div className="space-y-4">
-        {reviews.map((review) => (
+        {reviews.map((review:any) => (
           <div
-            key={review.id}
+            onClick={()=>{navigate(`/book/${review.book._id}`)}}
+            key={review._id}
             className="bg-gray-50 p-3 rounded-lg shadow-sm hover:bg-gray-100 transition"
           >
             <div className="flex items-center gap-3 mb-2">
               <img
-                src={review.avatar}
-                alt={review.name}
+                src={`https://ui-avatars.com/api/?name=${review.username}`}
+                alt={review.username}
                 className="w-8 h-8 rounded-full object-cover"
               />
-              <p className="font-semibold text-sm text-gray-800">{review.name}</p>
+              <p className="font-semibold text-sm text-gray-800">{review.username}</p>
+              <p>{review.book.title}</p>
             </div>
-            <p className="text-sm text-gray-700 line-clamp-2">{review.text}</p>
-            <p className="text-xs text-gray-400 mt-2">{review.time}</p>
+            <p className="text-sm text-gray-700 line-clamp-2">{review.comment  }</p>
+            <p className="text-xs text-gray-400 mt-2">{new Date(review.createdAt).toLocaleDateString()}
+            </p>
           </div>
         ))}
       </div>
