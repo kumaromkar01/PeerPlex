@@ -8,6 +8,7 @@ import SignUp from './Pages/SignUp.tsx'
 import AddBook from './Pages/AddBook.tsx'
 import AllBooks from './Pages/AllBooks.tsx'
 import ProtectedRoute from './Component/ProtectedRoute.tsx'
+import BookDetails from './Pages/BookDetails.tsx'
 function App() {
 
   return (
@@ -33,6 +34,13 @@ function App() {
             <ProtectedRoute>
               <AllBooks types="uploads" />
             </ProtectedRoute>}>
+          </Route>
+          <Route path={'/book/:id'} element={
+            <ProtectedRoute>
+              <BookDetails/>
+            </ProtectedRoute>
+          }>
+
           </Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path={'/signup'} element={<SignUp />}></Route>
