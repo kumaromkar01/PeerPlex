@@ -9,7 +9,7 @@ const BookDetailsPage = () => {
     const [book, setBook] = useState<any>(); // Replace `any` with a type if available
     const navigate = useNavigate();
     const [comment, setComment] = useState<any>();
-    const baseurl = import.meta.env.URL??"http://localhost:5000";
+    const baseurl = import.meta.env.VITE_API_URL??"http://localhost:5000";
     useEffect(() => {
         const fetchBook = async () => {
             try {

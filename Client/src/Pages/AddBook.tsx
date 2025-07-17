@@ -12,7 +12,7 @@ function AddBook() {
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
-  const baseurl = import.meta.env.URL??"http://localhost:5000";
+  const baseurl = import.meta.env.VITE_API_URL??"http://localhost:5000";
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!image) return alert('Please select an image');
