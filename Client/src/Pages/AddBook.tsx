@@ -12,6 +12,7 @@ function AddBook() {
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
+  const baseurl = import.meta.env.URL??"http://localhost:5000";
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!image) return alert('Please select an image');
@@ -26,7 +27,7 @@ function AddBook() {
     try {
       const token = localStorage.getItem('token'); 
       setloading(true);
-      const res = await axios.post('http://localhost:5000/api/book/create', formData, {
+      const res = await axios.post(`${baseurl}/api/book/create`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: token || '',
@@ -34,6 +35,7 @@ function AddBook() {
       });
 
       toast.success(res.statusText)
+      navigate(-1);
     } catch (error) {
       console.error(error);
       toast.error(error as string);
@@ -62,8 +64,7 @@ function AddBook() {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <input
-          type="text"
+        <textarea
           placeholder="Description"
           className="w-full text-black px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={desc}

@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { getProfile } from '../Services/api';
 
@@ -9,11 +9,11 @@ import Featured from '../Component/Featured';
 import SavedBooks from '../Component/SavedBooks';
 import LatestReviews from '../Component/LatestReviews';
 function Landing() {
-  const [user,setUser] = useState("Mr. anaonymous");
+  const [user, setUser] = useState("Mr. anaonymous");
   const [email, setEmail] = useState("BeyondDeveloper@gmail.com");
 
-  useEffect(()=>{
-    (async()=>{
+  useEffect(() => {
+    (async () => {
       try {
         const token = localStorage.getItem('token');
         const res = await getProfile(token as string);
@@ -24,22 +24,29 @@ function Landing() {
       } catch (error) {
         toast.error(error as string);
       }
-      
+
     })()
-  },[]);
+  }, []);
   return (
-    <div>
-      <Navbar name={user} email={email}/>
-      <Welcome name={user}/>
-      <Insight/>
-      <div className='grid grid-cols-3 gap-4 bg-gray-900 space-x-1'>
-        <Featured/>
-        <div className='mt-11 lg:col-span-1 col-span-3 space-y-6'>
-          <SavedBooks/>
-          <LatestReviews/>
+    <div className="bg-gray-100 min-h-screen">
+      <Navbar name={user} email={email} />
+      <Welcome name={user} />
+      <Insight />
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 bg-black gap-1 pt-5">
+        {/* Featured Section */}
+        <div className="lg:col-span-2">
+          <Featured />
+        </div>
+
+        {/* Sidebar Section */}
+        <div className="space-y-6 bg-[#3f29ed33] rounded-xl p-5">
+          <SavedBooks />
+          <LatestReviews />
         </div>
       </div>
     </div>
+
   )
 }
 
