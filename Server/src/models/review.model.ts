@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
+    username : {type : String},
     user : {type : mongoose.SchemaTypes.ObjectId, ref : "User"},
     book : {type : mongoose.SchemaTypes.ObjectId, ref : "Book"},
     comment : {type : String,required:true}

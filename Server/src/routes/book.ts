@@ -162,7 +162,6 @@ router.get('/latestrev', async (req, res) => {
       .find()
       .sort({ createdAt: -1 })
       .limit(5) 
-      .populate('user', 'name') // optional: include user name
       .populate('book', 'title'); // optional: include book title
 
     res.status(200).json(review);
